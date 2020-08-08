@@ -21,3 +21,4 @@ class Puppy(commands.Cog):
 
 def setup(client):
     client.add_cog(Puppy(client))
+    
