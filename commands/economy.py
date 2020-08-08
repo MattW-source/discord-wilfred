@@ -13,7 +13,6 @@ class Economy(commands.Cog):
 
     @commands.command(aliases=["eco"])
     async def economy(self, ctx, targetMember : discord.Member = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if "Manager" in [role.name for role in ctx.author.roles]:
             args = ctx.message.content.split()
             try:

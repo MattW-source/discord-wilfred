@@ -13,7 +13,6 @@ class Tag(commands.Cog):
 
     @commands.command()
     async def tag(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         args = ctx.message.content.split()
         if args[1].upper() == "CREATE":
             if get_profile(ctx.author.id)[1] >= 30 or "Moderator" in [role.name for role in ctx.message.author.roles] or "Manager" in [role.name for role in ctx.message.author.roles]:

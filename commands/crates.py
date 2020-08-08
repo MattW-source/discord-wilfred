@@ -13,7 +13,7 @@ class Crates(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["loot", "crate"])
-    async def crates(self, ctx, action=None):
+    async def crates(self, ctx, action = None, target : discord.Member = None):
         crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
         args = ctx.message.content.split(" ")
         if len(args) == 1:
