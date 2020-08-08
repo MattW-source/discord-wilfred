@@ -17,7 +17,6 @@ class Ping(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         pongStr = "Pong!"
         pongEmbed = discord.Embed(title="Pong!", description="_Pinging..._", color=colour.secondary)
         start = time.time() * 1000

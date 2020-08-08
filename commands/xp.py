@@ -13,19 +13,21 @@ class Xp(commands.Cog):
 
     @commands.command()
     async def xp(self, ctx, targetMember : discord.Member = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if "Manager" in [role.name for role in ctx.message.author.roles]:
             args = ctx.message.content.split(" ")
             member = targetMember
             if args[2].upper() == "GIVE":
                 amount = args[3]
                 if int(amount) < 0:
-                    await error("Cannot Give Negative EXP!", ctx.message.channel)
+                    await discord_error("Cannot give negative XP!", ctx)
                 else:
                     add_exp(member.id, int(amount))
-                    await ctx.message.channel.send(":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount))
+                    em = discord.Embed(description=":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount), color=colour.primary)
+                    em.set_author(name="Success")
+                    await ctx.send(embed=em)
+
         else:
-            await ctx.send("**Insufficient Permissions:** This command requires permission rank `MANAGER`")
+            await discord_error("This command requires permission rank `MANAGER`", ctx)
 
 def setup(client):
     client.add_cog(Xp(client))

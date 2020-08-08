@@ -14,7 +14,6 @@ class Multiplier(commands.Cog):
 
     @commands.command()
     async def multiplier(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if "Manager" in [role.name for role in ctx.message.author.roles]:
             args = ctx.message.content.split(" ")
             multiplier = int(args[1])
