@@ -9,11 +9,11 @@ on:
   push:
     branches:
       - master
-      - wilfred-* 
+      - wilfred-352
   pull_request:
     branches:
       - master
-      - wilfred-* 
+      - wilfred-352 
 jobs:
   build:
 
