@@ -22,4 +22,4 @@ class On_Member_Join(commands.Cog):
             await channel.send(embed=em)
 
 def setup(client):
-    client.add_cog(On_Member_Join(client))
+    client.add_cog(On_Member_Join(client))  
