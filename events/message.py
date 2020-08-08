@@ -45,11 +45,17 @@ class On_Message(commands.Cog):
                 mList.append(word)
             message.content = " ".join(mList)
 
-            if message.content.upper().startswith("V!UPDATE"):
-                await message.channel.send("Syncing DB")
-                for member in message.guild.members:
-                    insert_db_user(member)
-                await message.channel.send("Completed DB Sync")
+           if message.content.upper().startswith("V!UPDATE"):
+                if "Manager" in [role.name for role in message.author.roles]:
+                    await message.channel.send("Syncing DB")
+                    for member in message.guild.members:
+                        insert_db_user(member)
+                    await message.channel.send("Completed DB Sync")
+                else:
+                    em = discord.Embed(description="This command requires permission rank `MANAGER`", color=colour.reds)
+                    em.set_author(name="Error")
+                    await ctx.send(embed=em)
+
 
             rate = random.randint(2,2)
             if rate == 1:
