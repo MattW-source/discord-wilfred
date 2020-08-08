@@ -14,7 +14,6 @@ class Shop(commands.Cog):
 
     @commands.command()
     async def shop(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         args = ctx.message.content.split()
         if len(args) == 1:
             shop_string = """1) **Custom Tag** -  __$15.00__
