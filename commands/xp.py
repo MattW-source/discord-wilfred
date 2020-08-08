@@ -4,7 +4,7 @@ import utils.logging as log
 import utils.colours as colour
 import utils.values as value
 import utils.database as sql
-from utils.helpers import *
+from utils.helpers import discordError
 
 class Xp(commands.Cog):
 
@@ -20,12 +20,15 @@ class Xp(commands.Cog):
             if args[2].upper() == "GIVE":
                 amount = args[3]
                 if int(amount) < 0:
-                    await error("Cannot Give Negative EXP!", ctx.message.channel)
+                    discordError("Cannot give negative XP!", ctx)
                 else:
                     add_exp(member.id, int(amount))
-                    await ctx.message.channel.send(":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount))
+                    em = discord.Embed(description=":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount), color=colour.primary)
+                    em.set_author(name="Operation Complete")
+                    await ctx.send(embed=em)
+
         else:
-            await ctx.send("**Insufficient Permissions:** This command requires permission rank `MANAGER`")
+            discordError("This command requires permission rank `MANAGER`", ctx)
 
 def setup(client):
     client.add_cog(Xp(client))

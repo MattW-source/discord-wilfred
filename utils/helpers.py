@@ -181,3 +181,14 @@ def time_phaser(seconds):
     if s > 0:
         output = output + str(int(round(s, 0))) + " Seconds "
     return output
+
+
+async def discordError(errorMessage: str, ctx):
+
+    '''
+        Generates an error embed and sends it to the provided context's channel
+    '''
+
+    em = discord.Embed(description=errorMessage, color=colour.reds)
+    em.set_author(name="Error")
+    await ctx.send(embed=em)
