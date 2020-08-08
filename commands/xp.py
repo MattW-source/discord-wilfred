@@ -24,7 +24,7 @@ class Xp(commands.Cog):
                 else:
                     add_exp(member.id, int(amount))
                     em = discord.Embed(description=":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount), color=colour.primary)
-                    em.set_author(name="Operation Complete")
+                    em.set_author(name="Success")
                     await ctx.send(embed=em)
 
         else:
