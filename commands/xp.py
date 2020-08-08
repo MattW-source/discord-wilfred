@@ -4,7 +4,7 @@ import utils.logging as log
 import utils.colours as colour
 import utils.values as value
 import utils.database as sql
-from utils.helpers import discordError, cinfo, add_exp
+from utils.helpers import *
 
 class Xp(commands.Cog):
 
