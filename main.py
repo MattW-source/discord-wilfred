@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 import time
 import utils.logging as log
-import utils.values
+import utils.values as value
 
 client = commands.Bot(command_prefix = '!')
 client.remove_command("help")
@@ -67,4 +67,4 @@ for filename in os.listdir('./events'):
         client.load_extension("events.%s" % (filename[:-3]))
         log.info("Loaded events.%s" % (filename[:-3]))
 
-client.run(token)
+client.run(value.token)
