@@ -12,7 +12,7 @@ def insert_db_user(member):
     except:
         log.warn("User already exists in Database")
         try:
-            cinfo(member.name)
+            log.debug(member.name)
         except:
             pass
 
@@ -118,7 +118,7 @@ async def check_level_up(userID, guild, channel):
                         old_role = discord.utils.get(guild.roles, id=630451524602036254)
                     await user.add_roles(new_role)
                     await user.remove_roles(old_role)
-                    await channel.send(embed=discord.Embed(title="Level Up!", description="Congratulations %s! You've reached Level %s! That means you've unlocked the `%s` role!" % (user.mention, str(level), new_role.name), color=colour.primary))
+                    await channel.send(embed=discord.Embed(title="Level Up!", description="Congratulations %s! You've reached Level %s! That means you've unlocked the `%s` role!" % (user.mention, str(lvl), new_role.name), color=colour.primary))
         else:
             Checking = False
 

@@ -46,48 +46,69 @@ Open the crate to see what's inside
                 if args[2] == "1":
                     if bal >= 15.00:
                         add_balance(ctx.author, -15.00)
-                        await ctx.send("Purchase Successful, Please contact a member of staff to request your tag!")
+                        em = discord.Embed(description="Please contact a member of staff to request your tag!", color=colour.primary)
+                        em.author(name="Purchase Successful")
+                        await ctx.send(embed=em)
                     else:
-                        await ctx.send("Insufficient Funds")
+                        em = discord.Embed(description="Insufficient Funds", color=colour.reds)
+                        em.set_author(name="Purchase Failed")
+                        await ctx.send(embed=em)
 
                 elif args[2] == "2":
                     if bal >= 10.00:
                         add_balance(ctx.author, -10.00)
-                        await ctx.send("Purchase Successful, Please contact a member of staff to request your profile colour!")
+                        em = discord.Embed(description="Please contact a member of staff to request your profile colour!", color=colour.primary)
+                        em.author(name="Purchase Successful")
+                        await ctx.send(embed=em)
                     else:
-                        await ctx.send("Insufficient Funds")
+                        em = discord.Embed(description="Insufficient Funds", color=colour.reds)
+                        em.set_author(name="Purchase Failed")
 
                 elif args[2] == "3":
                     if bal >= 5.00:
                         add_balance(ctx.author, -5.00)
-                        await ctx.send("Purchase Successful, Please contact a member of staff to request your role!")
+                        em = discord.Embed(description="Please contact a member of staff to request your role!", color=colour.primary)
+                        em.author(name="Purchase Successful")
+                        await ctx.send(embed=em)
                     else:
-                        await ctx.send("Insufficient Funds")
-
+                        em = discord.Embed(description="Insufficient Funds", color=colour.reds)
+                        em.set_author(name="Purchase Failed")
+                        await ctx.send(embed=em)
                 elif args[2] == "4":
                     if bal >= 2.50*float(quantity):
                         add_balance(ctx.author, -2.50*float(quantity))
-                        await ctx.send("Purchase Successful! You have been given **%s** exp!" % (str(1000*quantity)))
+                        em = discord.Embed(description="You have been given **%s** exp!" % (str(1000*quantity)), color=colour.primary)
+                        em.add_author(name="Purchase Successful")
+                        await ctx.send(embed=em)
                         add_exp(ctx.author.id, 1000*quantity)
                         await check_level_up(ctx.author.id, ctx.guild, ctx.channel)
                     else:
-                        await ctx.send("Insufficient Funds")
+                        em = discord.Embed(title = "Purchase Failed", description="Insufficient Funds", color=colour.reds)
+                        await ctx.send(embed=em)
 
                 elif args[2] == "5":
                     if bal >= 1.00*float(quantity):
                         crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
-                        if crates_no+quantity > 15:
-                            await ctx.send("**Error:** You cannot have more than **15** crates in your inventory")
+                        if crates_no + quantity > 15:
+                            em = discord.Embed(description="You can not have more than 15 crates in your inventory", color=colour.reds)
+                            em.set_author(name="Error")
+                            await ctx.send(embed=em)
                         else:
                             add_balance(ctx.author, -1.00*float(quantity))
-                            await ctx.send("Purchase Successful! You have been given **%s** crate(s)!" % (str(1*quantity)))
+                            em = discord.Embed(description="You have been given **%s** crate(s)!" % (str(1*quantity)), color=colour.primary)
+                            em.set_author(name="Purchase Successful")
+                            await ctx.send(embed=em)
                             crates_no = crates_no + 1*quantity
                             sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
                     else:
-                        await ctx.send("Insufficient Funds")
+                        em = discord.Embed(description="Insufficient Funds", color=colour.reds)
+                        em.set_author(name="Purchase Failed")
+                        await ctx.send(embed=em)
 
                 else:
-                    await ctx.send("Invalid Item! Use !shop to view list of items")
+                    em = discord.Embed(description="Use `!shop` to view list of items", color=colour.reds)
+                    em.set_author(name="Invalid Item")
+                    await ctx.send(embed=em)
 
 
 
