@@ -94,10 +94,7 @@ Open the crate to see what's inside
                     else:
                         discordError("Insufficent funds", ctx)
                 else:
-                    em = discord.Embed(description="Use `!shop` to view list of items", color=colour.reds)
-                    em.set_author(name="Invalid Item")
-                    await ctx.send(embed=em)
-
+                    discordError("Invalid Item! Use `!shop` to view list of items", ctx)
 
 
 def setup(client):
