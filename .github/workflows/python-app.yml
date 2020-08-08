@@ -3,17 +3,12 @@
 
 name: Python application
 
+
+
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    branches:
-      - master
-      - wilfred-352
-  pull_request:
-    branches:
-      - master
-      - wilfred-352 
+  - push
+  - pull_request
+    
 jobs:
   build:
 
