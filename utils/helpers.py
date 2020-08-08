@@ -12,7 +12,7 @@ def insert_db_user(member):
     except:
         log.warn("User already exists in Database")
         try:
-            cinfo(member.name)
+            debug(member.name)
         except:
             pass
 
