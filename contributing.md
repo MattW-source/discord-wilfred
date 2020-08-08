@@ -20,8 +20,7 @@ Sometimes we hold events in which you can earn rewards, keep posting in our #ser
 Testing of the in-dev branch is ran on a twin server, contributors with the Contributor Rank will be invited to this server to help with testing. The contributor role on the test server will give admin like permissions with the bot, however, everything is runnong off a seperate database and won't affect the live server.
 
 # Collaborators/Staff
-Managers of Varsity Discord are given the Collaborator role for the moderation of the Issues and Pull requests feed, not all collaborators are active developers of the bot and are required to follow the same procedures as normal users, in which they need to create their own fork unless specified otherwise.
-Staff members **should not** commit directly to any branches on this repository unless you're a approved developer (I.e. Matt)
+Collaborators **should not** commit directly to any branches on this repository unless you're a approved developer (I.e. Matt)
 **Do not under any circumstances commit to Master**
 
 # Disclaimer
