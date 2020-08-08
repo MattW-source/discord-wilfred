@@ -50,7 +50,7 @@ Open the crate to see what's inside
                         em.author(name="Purchase Successful")
                         await ctx.send(embed=em)
                     else:
-                        discordError("Insufficent funds", ctx)
+                        await discord_error("Insufficent funds", ctx)
                 elif args[2] == "2":
                     if bal >= 10.00:
                         add_balance(ctx.author, -10.00)
@@ -58,7 +58,7 @@ Open the crate to see what's inside
                         em.author(name="Purchase Successful")
                         await ctx.send(embed=em)
                     else:
-                         discordError("Insufficent funds", ctx)
+                         await discord_error("Insufficent funds", ctx)
 
                 elif args[2] == "3":
                     if bal >= 5.00:
@@ -67,7 +67,7 @@ Open the crate to see what's inside
                         em.author(name="Purchase Successful")
                         await ctx.send(embed=em)
                     else:
-                        discordError("Insufficent funds", ctx)
+                        await discord_error("Insufficent funds", ctx)
                 elif args[2] == "4":
                     if bal >= 2.50*float(quantity):
                         add_balance(ctx.author, -2.50*float(quantity))
@@ -77,13 +77,13 @@ Open the crate to see what's inside
                         add_exp(ctx.author.id, 1000*quantity)
                         await check_level_up(ctx.author.id, ctx.guild, ctx.channel)
                     else:
-                        discordError("Insufficent funds", ctx)
+                        await discord_error("Insufficent funds", ctx)
 
                 elif args[2] == "5":
                     if bal >= 1.00*float(quantity):
                         crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                         if crates_no + quantity > 15:
-                           discordError("You cannot have more than 15 crates in your inventory", ctx)
+                           await discord_error("You cannot have more than 15 crates in your inventory", ctx)
                         else:
                             add_balance(ctx.author, -1.00*float(quantity))
                             em = discord.Embed(description="You have been given **%s** crate(s)!" % (str(1*quantity)), color=colour.primary)
@@ -92,9 +92,9 @@ Open the crate to see what's inside
                             crates_no = crates_no + 1*quantity
                             sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
                     else:
-                        discordError("Insufficent funds", ctx)
+                        await discord_error("Insufficent funds", ctx)
                 else:
-                    discordError("Invalid Item! Use `!shop` to view list of items", ctx)
+                    await discord_error("Invalid Item! Use `!shop` to view list of items", ctx)
 
 
 def setup(client):

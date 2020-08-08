@@ -183,7 +183,7 @@ def time_phaser(seconds):
     return output
 
 
-async def discordError(errorMessage: str, ctx):
+async def discord_error(errorMessage: str, ctx):
 
     '''
         Generates an error embed and sends it to the provided context's channel

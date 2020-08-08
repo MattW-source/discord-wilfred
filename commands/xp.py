@@ -20,7 +20,7 @@ class Xp(commands.Cog):
             if args[2].upper() == "GIVE":
                 amount = args[3]
                 if int(amount) < 0:
-                    discordError("Cannot give negative XP!", ctx)
+                    await discord_error("Cannot give negative XP!", ctx)
                 else:
                     add_exp(member.id, int(amount))
                     em = discord.Embed(description=":ok_hand: Successfully given **%s** **%s EXP**!" % (member.name, amount), color=colour.primary)
@@ -28,7 +28,7 @@ class Xp(commands.Cog):
                     await ctx.send(embed=em)
 
         else:
-            discordError("This command requires permission rank `MANAGER`", ctx)
+            await discord_error("This command requires permission rank `MANAGER`", ctx)
 
 def setup(client):
     client.add_cog(Xp(client))
