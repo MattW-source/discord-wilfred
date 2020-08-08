@@ -23,3 +23,4 @@ class On_Member_Join(commands.Cog):
 
 def setup(client):
     client.add_cog(On_Member_Join(client))  
+    
