@@ -12,8 +12,8 @@ class Crates(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=["loot", "crate"])
-    async def crates(self, ctx, action = None, target : discord.Member = None):
+    @commands.group(aliases=["loot", "crate"], invoke_without_command=True)
+    async def crates(self, ctx):
         crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
         args = ctx.message.content.split(" ")
         if len(args) == 1:
@@ -21,80 +21,77 @@ class Crates(commands.Cog):
                                   color=colour.reds)
             embed.set_author(name="Crates")
             await ctx.send(embed=embed)
-        elif action.upper() == "OPEN" or action.upper() == "USE":
-            if crates_no == 0:
-                await ctx.send("**Error:** You don't have any crates to open")
+
+    @crates.command(aliases=["use"])
+    async def open(self, ctx, amount: int = 1):
+        crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+
+        if crates_no == 0:
+            await ctx.send("**Error:** You don't have any crates to open")
+        else:
+            if amount > 10:
+                await ctx.send(embed=discord.Embed(title="Crates Opening Error",
+                                                   description="You're trying to open too many crates, try a smaller number.",
+                                                   color=colour.reds))
+
+                return
+            elif amount <= 0:
+                await ctx.send(embed=discord.Embed(title="Crates Opening Error",
+                                                   description="Please don't try to create a black hole and try a bigger number.",
+                                                   color=colour.reds, ))
+
+                return
+
+            # If a user tries to open more crates than they have it'll default to how much they have
+            if crates_no < amount:
+                amount = crates_no
+
+            # Open crates
+            crates = [open_crate(ctx) for _ in range(0, amount)]
+
+            # Take however many crates the user opened
+            crates_no = crates_no - amount
+            sql.execute_query("ibm.db",
+                              "UPDATE Members SET crates = %s WHERE UserID = %s" % (
+                                  str(crates_no), str(ctx.author.id)))
+
+            embed = discord.Embed(
+                description="Opening Crate" if amount == 1 else "Opening %d Crates" % amount)
+            embed.set_author(name="Crate")
+            msg = await ctx.send(embed=embed)
+            await asyncio.sleep(2)
+
+            if amount == 1:
+                print(crates)
+                embed = discord.Embed(title=crates[0][0], description=crates[0][1], color=crates[0][2])
+                embed.set_author(name=crates[0][3])
+                await msg.edit(embed=embed)
             else:
-                if len(args) >= 3:
-                    target_no = int(args[2])
+                description = ""
+                for c in crates:
+                    description += c[0].replace("You Won:", "**You Won:**").replace("(Duplicate)",
+                                                                                    "**(Duplicate)**") + "\n"
 
-                    if target_no > 10:
-                        await ctx.send(embed=discord.Embed(title="Crates Opening Error",
-                                                           description="You're trying to open too many crates, try a smaller number.",
-                                                           color=colour.reds))
+                embed = discord.Embed(title="You've successfully opened %d crates!" % amount,
+                                      description=description,
+                                      colour=colour.primary)
+                await ctx.send(embed=embed)
 
-                        return
-                    elif target_no <= 0:
-                        await ctx.send(embed=discord.Embed(title="Crates Opening Error",
-                                                           description="Please don't try to create a black hole and try a bigger number.",
-                                                           color=colour.reds, ))
-
-                        return
-                else:
-                    target_no = 1
-
-                # If a user tries to open more crates than they have it'll default to how much they have
-                if crates_no < target_no:
-                    target_no = crates_no
-
-                # Open crates
-                crates = [open_crate(ctx, crates_no) for _ in range(0, target_no)]
-
-                # Take however many crates the user opened
-                crates_no = crates_no - target_no
-                sql.execute_query("ibm.db",
-                                  "UPDATE Members SET crates = %s WHERE UserID = %s" % (
-                                      str(crates_no), str(ctx.author.id)))
-
-                embed = discord.Embed(
-                    description="Opening Crate" if target_no == 1 else "Opening %d Crates" % target_no)
-                embed.set_author(name="Crate")
-                msg = await ctx.send(embed=embed)
-                await asyncio.sleep(2)
-
-                if target_no == 1:
-                    print(crates)
-                    embed = discord.Embed(title=crates[0][0], description=crates[0][1], color=crates[0][2])
-                    embed.set_author(name=crates[0][3])
-                    await msg.edit(embed=embed)
-                else:
-                    description = ""
-                    for c in crates:
-                        description += c[0].replace("You Won:", "**You Won:**").replace("(Duplicate)",
-                                                                                        "**(Duplicate)**") + "\n"
-
-                    embed = discord.Embed(title="You've successfully opened %d crates!" % target_no,
-                                          description=description,
-                                          colour=colour.primary)
-                    await ctx.send(embed=embed)
-
-        elif action.upper() == "GIVE":
-            if "Manager" in [role.name for role in ctx.message.author.roles]:
-                target = await commands.MemberConverter().convert(ctx, args[2])
-
-                if target is not None:
-                    amount = int(args[3])
-                    crates_no = \
-                        sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(target.id)))[0][0]
-                    crates_no = crates_no + amount
-                    sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (
-                        str(crates_no), str(target.id)))
-                    await ctx.send("Successfully gave %s **%s** crate(s)" % (target.mention, str(amount)))
-            else:
-                await ctx.send("**Insufficient Permissions:** This command requires permission rank `MANAGER`")
+    @crates.command()
+    async def give(self, ctx, target: discord.Member = None, amount: int = 0):
+        if "Manager" in [role.name for role in ctx.message.author.roles]:
+            if target is not None:
+                crates_no = \
+                    sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(target.id)))[0][0]
+                crates_no = crates_no + amount
+                sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (
+                    str(crates_no), str(target.id)))
+                await ctx.send("Successfully gave %s **%s** crate(s)" % (target.mention, str(amount)))
+        else:
+            await ctx.send("**Insufficient Permissions:** This command requires permission rank `MANAGER`")
 
 
-def open_crate(ctx, crates_no):
+def open_crate(ctx):
     # Pick rarity
     chance = random.randint(1, 100)
     if chance <= 50:
