@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import utils.logging as log
 
-class Command_Event(commands.Cog):
+class On_Command(commands.Cog):
     def __init__(self, client):
         self.client = client
 
