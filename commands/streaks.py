@@ -15,7 +15,6 @@ class Streaks(commands.Cog):
 
     @commands.command(aliases=["streaktop", "st", "stop"])
     async def streaks(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         await leaderboard_main(ctx, self=self)
 
 def generate_leaderboard_string(guild, page=1):

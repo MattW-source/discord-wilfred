@@ -20,8 +20,6 @@ class Coinflip(commands.Cog):
     @commands.command(aliases=["cf"])
     async def coinflip(self, ctx, target : discord.Member = None, amount = None, side = "heads"):
 
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
-
         async def flip_coin():
            coinflip_string = "Flipping Coin."
            embed = discord.Embed(description=coinflip_string, color=colour.primary)

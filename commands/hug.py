@@ -20,7 +20,6 @@ class Hug(commands.Cog):
         Required Arguments: Mention
 
         '''
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         bal = fetch_balance(ctx.author)
         if bal >= 0.01:
             add_balance(ctx.author, -0.01)

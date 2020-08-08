@@ -13,7 +13,6 @@ class Xp(commands.Cog):
 
     @commands.command()
     async def xp(self, ctx, targetMember : discord.Member = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if "Manager" in [role.name for role in ctx.message.author.roles]:
             args = ctx.message.content.split(" ")
             member = targetMember

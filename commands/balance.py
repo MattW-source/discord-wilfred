@@ -13,7 +13,6 @@ class Balance(commands.Cog):
 
     @commands.command(aliases=["bal", "money"])
     async def balance(self, ctx, target : discord.Member = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if target == None:
             balance = get_profile(ctx.author.id)[0]
             target = ctx.author

@@ -14,7 +14,6 @@ class Kitten(commands.Cog):
 
     @commands.command()
     async def kitten(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         imgUrl = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
         em = discord.Embed(title="Kitten", image=imgUrl, colour=colour.secondary)
         em.set_image(url=imgUrl)

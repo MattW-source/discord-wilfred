@@ -13,7 +13,6 @@ class Profile(commands.Cog):
 
     @commands.command()
     async def profile(self, ctx, user : discord.Member = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         message = ctx.message
         if user is None:
             user = ctx.author

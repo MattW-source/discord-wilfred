@@ -14,7 +14,6 @@ class Badge(commands.Cog):
 
     @commands.command()
     async def badge(self, ctx, operation, badge, user : discord.Member):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         message = ctx.message
         if "Manager" in [role.name for role in message.author.roles]:
             if operation.upper() == "ADD":
