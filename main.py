@@ -8,8 +8,7 @@ import utils.values as value
 client = commands.Bot(command_prefix = '!')
 client.remove_command("help")
 
-global up
-up = time.time()
+client.up = time.time()
 
 client.conCooldown = []
 client.cooldown = []
