@@ -11,4 +11,4 @@ class On_Command(commands.Cog):
         log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
 
 def setup(client):
-    client.add_cog(Command_Event(client))
+    client.add_cog(On_Command(client))
