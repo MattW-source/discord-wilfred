@@ -20,6 +20,9 @@ class IQBoard(commands.Cog):
             if reaction.count >= self.iq_requirement:
                 channel = self.client.get_channel(self.iq_channel)
                 message = reaction.message
+                # Making sure people can't IQ Board IQ Boards
+                if message.channel == channel:
+                    return
                 embed = self.create_iq_embed(message, reaction)
                 # Check if embed already exists in #iq-board
                 iq_embed = await self.find_iq_embed(embed, channel)
@@ -33,6 +36,9 @@ class IQBoard(commands.Cog):
         if str(reaction) == self.iq_emoji:
             channel = self.client.get_channel(self.iq_channel)
             message = reaction.message
+            # Making sure people can't IQ Board IQ Boards
+            if message.channel == channel:
+                return
             new_embed = self.create_iq_embed(message, reaction)
             old_embed = await self.find_iq_embed(new_embed, channel)
 
