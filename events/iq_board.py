@@ -11,40 +11,41 @@ class IQBoard(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.iq_emoji = "<:WeSmart:682352802202386472>"
-        self.iq_channel = -1  # TODO: Create channel and change ID
         self.iq_requirement = 7
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        self.iq_channel = self.client.get_channel(-1)  # TODO: Create channel and change ID
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if str(reaction) == self.iq_emoji:
             if reaction.count >= self.iq_requirement:
-                channel = self.client.get_channel(self.iq_channel)
                 message = reaction.message
                 # Making sure people can't IQ Board IQ Boards
-                if message.channel == channel:
+                if message.channel == self.iq_channel:
                     return
                 embed = self.create_iq_embed(message, reaction)
                 # Check if embed already exists in #iq-board
-                iq_embed = await self.find_iq_embed(embed, channel)
+                iq_embed = await self.find_iq_embed(embed)
                 if iq_embed is not None:
                     await iq_embed.edit(embed=embed)
                 else:
-                    await channel.send(embed=embed)
+                    await self.iq_channel.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if str(reaction) == self.iq_emoji:
-            channel = self.client.get_channel(self.iq_channel)
             message = reaction.message
             # Making sure people can't IQ Board IQ Boards
-            if message.channel == channel:
+            if message.channel == self.iq_channel:
                 return
             new_embed = self.create_iq_embed(message, reaction)
-            old_embed = await self.find_iq_embed(new_embed, channel)
+            old_embed = await self.find_iq_embed(new_embed)
 
             # If it does not exist anymore we'll send it again
             if old_embed is None and reaction.count > self.iq_requirement:
-                await channel.send(embed=new_embed)
+                await self.iq_channel.send(embed=new_embed)
             elif reaction.count == 0:
                 await old_embed.delete()
             else:
@@ -52,17 +53,16 @@ class IQBoard(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        channel = self.client.get_channel(self.iq_channel)
         reactions = [(str(r.emoji), r) for r in message.reactions]
         if self.iq_emoji in [r[0] for r in reactions]:
-            embed_msg = await self.find_iq_embed(self.create_iq_embed(message, [r[1] for r in reactions if self.iq_emoji in r[0]][0]), channel)
+            embed_msg = await self.find_iq_embed(self.create_iq_embed(message, [r[1] for r in reactions if self.iq_emoji in r[0]][0]))
             await embed_msg.delete()
 
     # Find the already existing embed in the #iq-board channel
-    # arguments: discord.Embed() we just created, #iq-board channel
+    # arguments: discord.Embed() we just created
     # return: None if the embed does not exist, if the embed/message exists it will return discord.Message
-    async def find_iq_embed(self, embed, channel):
-        messages = [msg for msg in await channel.history(limit=200).flatten() if msg.embeds]
+    async def find_iq_embed(self, embed):
+        messages = [msg for msg in await self.iq_channel.history(limit=200).flatten() if msg.embeds]
         embeds = [msg.embeds for msg in messages]
         # Zipping together embeds, values of the first field (Jump) and messages
         for em, jump, message in zip(embeds[0], [em[0].fields[0].value for em in embeds], messages):
