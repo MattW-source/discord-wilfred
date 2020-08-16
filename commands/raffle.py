@@ -13,7 +13,6 @@ class Raffle(commands.Cog):
 
     @commands.command()
     async def raffle(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if "Moderator" in [role.name for role in ctx.author.roles] or "Manager" in [role.name for role in ctx.author.roles]:
             if not self.client.raffles:
                 args = ctx.message.content.split(" ")

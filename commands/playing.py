@@ -14,7 +14,6 @@ class Playing(commands.Cog):
 
     @commands.command()
     async def playing(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         song = sinusbot.playing()
         if song == None:
             print("wtf")

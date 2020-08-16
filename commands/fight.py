@@ -13,7 +13,6 @@ class Fight(commands.Cog):
 
     @commands.command()
     async def fight(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         bal = fetch_balance(ctx.author)
         if bal >= 0.05:
             add_balance(ctx.author, -0.05)

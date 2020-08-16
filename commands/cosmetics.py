@@ -13,7 +13,6 @@ class Cosmetics(commands.Cog):
 
     @commands.command(aliases=["cosmetic", "inventory"])
     async def cosmetics(self, ctx, operand = None, cosmetic = None):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         if operand is None:
             #get inventory
             cosmetics_all = sql.db_query("ibm.db", "SELECT cosmetic_id FROM cosmetics")

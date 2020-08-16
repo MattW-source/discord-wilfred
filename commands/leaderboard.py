@@ -15,7 +15,6 @@ class Leaderboard(commands.Cog):
 
     @commands.command(aliases=["lb", "lboard", "topusers", "top"])
     async def leaderboard(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         await leaderboard_main(ctx, self=self)
 
 def generate_leaderboard_string(guild, page=1):
