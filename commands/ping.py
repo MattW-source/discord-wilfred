@@ -17,8 +17,6 @@ class Ping(commands.Cog):
 
     @commands.command()
     async def ping(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
-        global up
         pongStr = "Pong!"
         pongEmbed = discord.Embed(title="Pong!", description="_Pinging..._", color=colour.secondary)
         start = time.time() * 1000
@@ -27,7 +25,7 @@ class Ping(commands.Cog):
         response_list = ping('gateway.discord.gg', size=56, count=5)
         gateway_ping = response_list.rtt_avg_ms
         pongEmbed = discord.Embed(title="Pong!", description="Gateway: `%sms`\nRest: `%sms`" % (str(gateway_ping), str(int(round(end-start, 0)))), color=colour.secondary)
-        pongEmbed.set_footer(text="Online For: " + str(time_phaser(int(time.time()-up))))
+        pongEmbed.set_footer(text="Online For: " + str(time_phaser(int(time.time()-self.client.up))))
         await msg.edit(embed=pongEmbed)
 
 def setup(client):

@@ -15,7 +15,6 @@ class Baltop(commands.Cog):
 
     @commands.command(aliases=["balancetop", "bt", "btop"])
     async def baltop(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         await leaderboard_main(ctx, self=self)
 
 def generate_leaderboard_string(guild, page=1):

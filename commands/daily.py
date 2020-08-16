@@ -15,7 +15,6 @@ class Daily(commands.Cog):
 
     @commands.command()
     async def daily(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         current_time = time.time()
         query = sql.db_query("ibm.db", "SELECT dailyRewardClaimed, dailyRewardStreak FROM Members WHERE UserID = %s " % (str(ctx.author.id)))
         last_advent = query[0][0]

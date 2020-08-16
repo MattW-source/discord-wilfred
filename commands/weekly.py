@@ -13,7 +13,6 @@ class Profile(commands.Cog):
 
     @commands.command()
     async def weekly(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         args = ctx.message.content.split(" ")
         showDetails = False
         if len(args) >= 2:

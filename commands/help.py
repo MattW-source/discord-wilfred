@@ -13,7 +13,6 @@ class Help(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         helpEm = discord.Embed(description="", color=colour.primary)
         helpEm.set_author(name="Command Help")
         helpEm.set_thumbnail(url="https://i.foggyio.uk/varsity_discord.png")
