@@ -62,17 +62,18 @@ class Coinflip(commands.Cog):
                         await self.client.wait_for('message', check=check, timeout=30)
                     except asyncio.TimeoutError:
                         await ctx.send("Target did not respond in time")
+                        add_balance(ctx.author, float(amount))
                     else:
                         add_balance(target, -float(amount))
                         coin_side = random.choice(["heads", "tails"])
                         await flip_coin()
                         if coin_side == side.lower():
                             # user wins
-                            add_balance(ctx.author, float(amount))
+                            add_balance(ctx.author, float(amount)*2)
                             await ctx.send(ctx.author.mention + " Has Won $" + amount)
                         else:
                             # target wins
-                            add_balance(target, float(amount))
+                            add_balance(target, float(amount)*2)
                             await ctx.send(target.mention + " Has Won $" + amount)
 
 def setup(client):
