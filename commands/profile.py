@@ -24,7 +24,7 @@ class Profile(commands.Cog):
         else:
             em = discord.Embed(title=user.name, colour=eval(profile[4]))
 
-        exps = sql.db_query("ibm.db", "SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY expTotal DESC")
+        exps = sql.db_query("SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY expTotal DESC")
         lpos = 1
         for userl in exps:
             userlOb = discord.utils.get(ctx.guild.members, id=userl[0])
@@ -35,7 +35,7 @@ class Profile(commands.Cog):
             else:
                 break
 
-        activity = sql.db_query("ibm.db", "SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY weeklyActivity DESC")
+        activity = sql.db_query("SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY weeklyActivity DESC")
         apos = 1
         for usera in activity:
             if not usera[0] == user.id:
@@ -43,7 +43,7 @@ class Profile(commands.Cog):
             else:
                 break
 
-        bals = sql.db_query("ibm.db", "SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY Balance DESC")
+        bals = sql.db_query("SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 ORDER BY Balance DESC")
         bpos = 1
         for userb in bals:
             if not userb[0] == user.id:
@@ -53,7 +53,7 @@ class Profile(commands.Cog):
 
 
         rank = get_rank(user)
-        cookies_no = sql.db_query("ibm.db", "SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(user.id)))[0][0]
+        cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(user.id)))[0][0]
         em.set_author(name=rank[0], icon_url=rank[1])
 
         badges = profile[3]
@@ -64,9 +64,9 @@ class Profile(commands.Cog):
         preLevelTotal = profile[2] - exp
         nextRequiredAmount = preLevelTotal + expCost
 
-        cosmetics_all = sql.db_query("ibm.db", "SELECT cosmetic_id FROM cosmetics")
+        cosmetics_all = sql.db_query(""SELECT cosmetic_id FROM cosmetics")
         cosmetics_total = len(cosmetics_all)
-        inventory = eval(sql.db_query("ibm.db", "SELECT cosmetics FROM Members WHERE UserID = %s" % (str(user.id)))[0][0])
+        inventory = eval(sql.db_query("SELECT cosmetics FROM Members WHERE UserID = %s" % (str(user.id)))[0][0])
         inventory_size = len(inventory)
 
         em.add_field(name=badges, value="_ _ _ _ ")
