@@ -96,9 +96,9 @@ class Cosmetics(commands.Cog):
                 msg = await self.client.wait_for('message', check=check)
                 if msg.content.upper() == "Y":
                     if image_url is None:
-                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description) VALUES ('%s', '%s', '%s')" % (title, rarity, description))
+                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description) VALUES ('%s', '%s', '%s')" % (title.replace("'", "''"), rarity, description.replace("'", "''")))
                     else:
-                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description, cosmetic_image_url) VALUES ('%s', '%s', '%s', '%s')" % (title, rarity, description, image_url))
+                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description, cosmetic_image_url) VALUES ('%s', '%s', '%s', '%s')" % (title.replace("'", "''"), rarity, description.replace("'", "''"), image_url.replace("'", "''")))
                     await ctx.send("Cosmetic Created")
                 else:
                     await ctx.send("_Cancelled_")
