@@ -21,7 +21,7 @@ class Tag(commands.Cog):
                 tagSubmitter = str(ctx.message.author)
                 tagName = args[2]
                 try:
-                    sql.execute_query("INSERT INTO tags (name, content, submittedBy) VALUES ('%s', '%s', '%s')" % (tagName, tagContent, tagSubmitter))
+                    sql.execute_query("INSERT INTO tags (name, content, submittedBy) VALUES ('%s', '%s', '%s')" % (tagName.replace("'", "''"), tagContent.replace("'", "''"), tagSubmitter.replace("'", "''")))
                     await ctx.send("Tag successfully created")
                 except:
                     await ctx.send("A tag already exists with that name")
@@ -33,7 +33,7 @@ class Tag(commands.Cog):
                 tagSubmitter = str(ctx.message.author)
                 tagName = args[2]
                 try:
-                    sql.execute_query("INSERT INTO tags (name, content, submittedBy, isImage) VALUES ('%s', '%s', '%s', 1)" % (tagName, tagContent, tagSubmitter))
+                    sql.execute_query("INSERT INTO tags (name, content, submittedBy, isImage) VALUES ('%s', '%s', '%s', 1)" % (tagName.replace("'", "''"), tagContent.replace("'", "''"), tagSubmitter.replace("'", "''")))
                     await ctx.send("Tag successfully created")
                 except:
                     await ctx.send("A tag already exists with that name")
@@ -42,15 +42,15 @@ class Tag(commands.Cog):
         elif args[1].upper() == "DELETE":
             if "Moderator" in [role.name for role in ctx.message.author.roles] or "Manager" in [role.name for role in ctx.message.author.roles]:
                 tagName = args[2]
-                tag = sql.db_query("SELECT name FROM tags WHERE name = '%s'" % (tagName))
+                tag = sql.db_query("SELECT name FROM tags WHERE name = '%s'" % (tagName.replace("'", "''")))
                 if len(tag) == 0: # tag does not exists
                     await ctx.send("There is no tag with that name")
                 else:
-                    sql.execute_query("DELETE FROM tags WHERE name = '%s'" % (tagName))
+                    sql.execute_query("DELETE FROM tags WHERE name = '%s'" % (tagName.replace("'", "''")))
                     await ctx.send("Tag has been successfully deleted")
         else:
             tagName = args[1]
-            tag = sql.db_query("SELECT name, content, submittedBy, isImage FROM tags WHERE name = '%s'" % (tagName))
+            tag = sql.db_query("SELECT name, content, submittedBy, isImage FROM tags WHERE name = '%s'" % (tagName.replace("'", "''")))
             if not len(tag) == 0:
                 if tag[0][3] == 1:
                     embed = discord.Embed(title=tag[0][0], color=colour.secondary)
