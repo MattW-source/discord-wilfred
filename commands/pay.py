@@ -28,9 +28,10 @@ class Pay(commands.Cog):
                     add_balance(ctx.author, -float(amount))
                     add_balance(targetMember, float(amount))
                     await ctx.send("Transaction Complete!")
-                except: # Transaction Failed, rollback everything
+                except Exception as e: # Transaction Failed, rollback everything
                     set_balance(ctx.author, userBal)
                     set_balance(targetMember, targetBal)
+                    log.error("Transaction Failed | %s -> %s ($%s) | Error: %s" % (ctx.author.name, targetMember.name, str(amount), str(e)))    
                     await ctx.send("Transaction Failed. Please try again later.")
 
 def setup(client):
