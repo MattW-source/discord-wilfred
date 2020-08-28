@@ -64,7 +64,7 @@ class Profile(commands.Cog):
         preLevelTotal = profile[2] - exp
         nextRequiredAmount = preLevelTotal + expCost
 
-        cosmetics_all = sql.db_query(""SELECT cosmetic_id FROM cosmetics")
+        cosmetics_all = sql.db_query("SELECT cosmetic_id FROM cosmetics")
         cosmetics_total = len(cosmetics_all)
         inventory = eval(sql.db_query("SELECT cosmetics FROM Members WHERE UserID = %s" % (str(user.id)))[0][0])
         inventory_size = len(inventory)
