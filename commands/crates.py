@@ -56,13 +56,21 @@ class Crates(commands.Cog):
                 embed.set_author(name=crates[0][3])
                 await msg.edit(embed=embed)
             else:
-                description = ""
+                dupe_reward = 0
+                description = "You won:\n"
                 for c in crates:
-                    description += c[0].replace("You Won:", "**You Won:**").replace("(Duplicate)", "**(Duplicate)**") + "\n"
+                    description += " - " + c[0].strip("You Won:").replace("(Duplicate)", "**(Duplicate +%d XP)**" % c[4])
+                    if "Duplicate" in c[0]:
+                        dupe_reward += c[4]
+                    description += "\n"
+
+                if dupe_reward > 0:
+                    description += "\n"
+                    description += "You've earned **%d XP** from duplicates" % dupe_reward
                 embed = discord.Embed(title="You've successfully opened %d crates!" % amount,
                                       description=description,
                                       colour=colour.primary)
-                await ctx.send(embed=embed)
+                await msg.edit(embed=embed)
 
     @crates.command()
     async def give(self, ctx, target: discord.Member = None, amount: int = 0):
@@ -121,7 +129,7 @@ def open_crate(ctx):
             inventory.append(int(item[0]))
             sql.execute_query("UPDATE Members SET cosmetics = '%s' WHERE UserID = %s" % (
                 str(inventory), str(ctx.author.id)))
-    return title, description, embed_color, rarity  # In this order to prevent confusion with indexes at the embed creation
+    return title, description, embed_color, rarity, dupe_reward  # In this order to prevent confusion with indexes at the embed creation
 
 def setup(client):
     client.add_cog(Crates(client))
