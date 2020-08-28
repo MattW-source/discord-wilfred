@@ -12,7 +12,7 @@ class Cosmetics(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["cosmetic", "inventory"])
-    async def cosmetics(self, ctx, operand = None, cosmetic = None):
+    async def cosmetics(self, ctx, operand = None, *, cosmetic = None):
         if operand is None:
             #get inventory
             cosmetics_all = sql.db_query("SELECT cosmetic_id FROM cosmetics")
