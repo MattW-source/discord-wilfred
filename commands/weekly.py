@@ -17,7 +17,7 @@ class Profile(commands.Cog):
         showDetails = False
         if len(args) >= 2 and ("Moderator" in [role.name for role in ctx.author.roles] or "Manager" in [role.name for role in ctx.author.roles]):
             if args[1].upper() == "DETAILS":
-                activity = sql.db_query("ibm.db", "SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
+                activity = sql.db_query("SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
                 count = 1
                 index = 0
                 server_total = 0
@@ -41,7 +41,7 @@ class Profile(commands.Cog):
                     await ctx.send("Reset Weekly Activity Stats")
                     return
         else:
-            activity = sql.db_query("ibm.db", "SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
+            activity = sql.db_query("SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
             count = 1
             index = 0
             server_total = 0
