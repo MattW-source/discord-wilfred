@@ -3,10 +3,10 @@ import mysql.connector
 
 def execute_query(query):
     conn = mysql.connector.connect(
-           host = db_host,
-           user = db_user,
-           password = db_password,
-           database = db_database)
+           host = value.db_host,
+           user = value.db_user,
+           password = value.db_password,
+           database = value.db_database)
     c = conn.cursor()
     c.execute(query)
     conn.commit()
@@ -15,10 +15,10 @@ def execute_query(query):
 
 def db_query(query):
     conn = mysql.connector.connect(
-           host = db_host,
-           user = db_user,
-           password = db_password,
-           database = db_database)
+           host = value.db_host,
+           user = value.db_user,
+           password = value.db_password,
+           database = value.db_database)
     c = conn.cursor()
     c.execute(query)
     result = c.fetchall()
