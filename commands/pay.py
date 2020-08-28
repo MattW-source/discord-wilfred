@@ -16,10 +16,13 @@ class Pay(commands.Cog):
         if targetMember == None or amount == None:
             await ctx.send("Incorrect Usage, !pay <user> <amount>")
         else:
+            amount = round(float(amount), 2) # Don't want people sending 0.33333... to people
             userBal = fetch_balance(ctx.author)
             targetBal = fetch_balance(targetMember)
             if float(amount) > userBal:
                 await ctx.send("You have insufficient funds for this")
+            elif float(amount) < 0.01:
+                await ctx.send("You need to send at least 0.01.")
             else:
                 try: # Begin Transaction
                     add_balance(ctx.author, -float(amount))
