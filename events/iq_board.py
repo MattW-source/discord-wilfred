@@ -15,7 +15,7 @@ class IQBoard(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        self.iq_channel = self.client.get_channel(-1)  # TODO: Create channel and change ID
+        self.iq_channel = self.client.get_channel(748908518840598559)  # TODO: Create channel and change ID
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
