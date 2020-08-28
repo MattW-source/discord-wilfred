@@ -1,4 +1,4 @@
-import values
+import utils.values as value # Contains DB Values
 import mysql.connector
 
 def execute_query(query):
