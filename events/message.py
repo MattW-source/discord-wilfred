@@ -51,13 +51,6 @@ class On_Message(commands.Cog):
                     insert_db_user(member)
                 await message.channel.send("Completed DB Sync")
 
-            rate = random.randint(2,2)
-            if rate == 1:
-                embed = discord.Embed(title="Error", description="An unexpected error occurred whilst trying to process that message. Please try again later.\n\nIf the issue persists please contact an administrator", colour=reds)
-                embed.set_footer(text="discord.GatewayNotFound: The gateway to connect to discord was not found.")
-                await message.channel.send(embed=embed)
-                return False
-
             args = message.content.split(" ")
 
             if message.content[0] == "$":
@@ -115,14 +108,14 @@ class On_Message(commands.Cog):
 
             words = message.content.split()
             if not str(message.author.id) in self.client.ignore_list and not str(message.channel.id) in self.client.ignore_list and not message.author.id in self.client.cooldown and len(words) > 4 and len(message.content) > 16:
-                multiplier = sql.db_query("ibm.db", "SELECT Level FROM Members WHERE UserID = 1")[0][0]
+                multiplier = sql.db_query("SELECT Level FROM Members WHERE UserID = 1")[0][0]
                 if "Supporter" in [role.name for role in message.author.roles]:
                     multiplier = multiplier+0.5
-                bal = sql.db_query("ibm.db", "SELECT Balance FROM Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
+                bal = sql.db_query("SELECT Balance FROM Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
                 if not "Manager" in [role.name for role in message.author.roles]:
-                    currentWeeklyPoints = sql.db_query("ibm.db", "SELECT weeklyActivity from Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
+                    currentWeeklyPoints = sql.db_query("SELECT weeklyActivity from Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
                     newWeeklyPoints = currentWeeklyPoints + 1
-                    sql.execute_query("ibm.db", "UPDATE Members set weeklyActivity = %s WHERE UserID = %s" % (str(newWeeklyPoints), str(message.author.id)))
+                    sql.execute_query("UPDATE Members set weeklyActivity = %s WHERE UserID = %s" % (str(newWeeklyPoints), str(message.author.id)))
                 level = get_profile(message.author.id)[1]
                 self.client.cooldown.append(message.author.id)
                 exp_add = int(round(random.randint(15, 25)*multiplier,0))

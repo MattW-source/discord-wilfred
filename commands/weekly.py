@@ -15,16 +15,9 @@ class Profile(commands.Cog):
     async def weekly(self, ctx):
         args = ctx.message.content.split(" ")
         showDetails = False
-        if len(args) >= 2:
+        if len(args) >= 2 and ("Moderator" in [role.name for role in ctx.author.roles] or "Manager" in [role.name for role in ctx.author.roles]):
             if args[1].upper() == "DETAILS":
-                showDetails = True
-            elif args[1].upper() == "RESET":
-                sql.execute_query("ibm.db", "UPDATE Members SET weeklyActivity=0")
-                await ctx.send("Reset Weekly Activity Stats")
-                return
-        if ("Moderator" in [role.name for role in ctx.message.author.roles] or "Manager" in [role.name for role in ctx.author.roles]) and showDetails:
-            if not (len(args) == 1) or showDetails:
-                activity = sql.db_query("ibm.db", "SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
+                activity = sql.db_query("SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
                 count = 1
                 index = 0
                 server_total = 0
@@ -42,8 +35,13 @@ class Profile(commands.Cog):
                 embed.set_author(name="Weekly Activity Leaderboard")
                 embed.set_thumbnail(url="https://i.foggyio.uk/varsity_discord.png")
                 await ctx.send(embed=embed)
+            elif args[1].upper() == "RESET":
+                if "Manager" in [role.name for role in ctx.author.roles]:
+                    sql.execute_query("ibm.db", "UPDATE Members SET weeklyActivity=0")
+                    await ctx.send("Reset Weekly Activity Stats")
+                    return
         else:
-            activity = sql.db_query("ibm.db", "SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
+            activity = sql.db_query("SELECT UserID, weeklyActivity FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 ORDER BY weeklyActivity DESC")
             count = 1
             index = 0
             server_total = 0

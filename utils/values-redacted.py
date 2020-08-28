@@ -1,7 +1,8 @@
-up = 0
-buildVersion = "Version 3.5.1"
+# General Properties
+buildVersion = "Version 3.6.0"
+token        = ""
 
-entries = []
-raffles = False
-
-token = ""
+# SQL
+db_host     = ""
+db_user     = ""
+db_password = ""

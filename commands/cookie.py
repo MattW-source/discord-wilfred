@@ -30,9 +30,9 @@ class Cookie(commands.Cog):
             embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Oxygen480-apps-preferences-web-browser-cookies.svg/1024px-Oxygen480-apps-preferences-web-browser-cookies.svg.png")
             await ctx.message.channel.send(embed=embed)
             if not target.id == ctx.author.id:
-                cookies_no = sql.db_query("ibm.db", "SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(target.id)))[0][0]
+                cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(target.id)))[0][0]
                 cookies_no = cookies_no + 1
-                sql.execute_query("ibm.db", "UPDATE Members SET cookiesReceived = %s WHERE UserID = %s" % (str(cookies_no), str(target.id)))
+                sql.execute_query("UPDATE Members SET cookiesReceived = %s WHERE UserID = %s" % (str(cookies_no), str(target.id)))
         else:
             await ctx.send("%s you do not have sufficient funds for this!" % (ctx.message.author.mention))
 

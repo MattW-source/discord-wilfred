@@ -15,12 +15,11 @@ class Advent(commands.Cog):
 
     @commands.command()
     async def advent(self, ctx):
-        log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         current_time = time.time()
-        last_advent = sql.db_query("ibm.db", "SELECT dailyRewardClaimed FROM Members WHERE UserID = %s " % (str(ctx.author.id)))[0][0]
+        last_advent = sql.db_query("SELECT dailyRewardClaimed FROM Members WHERE UserID = %s " % (str(ctx.author.id)))[0][0]
         if last_advent < current_time:
             next_advent =  current_time + ((60 * 60) * 20)
-            sql.execute_query("ibm.db", "UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
+            sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
             reward = random.randint(1, 4)
             if reward == 1:
                 reward_name = "1000 Exp"
@@ -30,14 +29,14 @@ class Advent(commands.Cog):
                 add_coins(ctx.author, float(0.75))
             if reward == 3:
                 reward_name = "1 Crate"
-                crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+                crates_no = sql.db_query("SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                 crates_no = crates_no + 1
-                sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
+                sql.execute_query("UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
             if reward == 4:
                 reward_name = "2 Crates"
-                crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+                crates_no = sql.db_query("SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                 crates_no = crates_no + 2
-                sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
+                sql.execute_query("UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
             embed = discord.Embed(title="Advent", description="You Won " + reward_name, color=colour.primary)
             await ctx.send(embed=embed)
         else:
