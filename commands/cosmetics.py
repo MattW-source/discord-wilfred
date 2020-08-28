@@ -12,12 +12,12 @@ class Cosmetics(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["cosmetic", "inventory"])
-    async def cosmetics(self, ctx, operand = None, cosmetic = None):
+    async def cosmetics(self, ctx, operand = None, *, cosmetic = None):
         if operand is None:
             #get inventory
-            cosmetics_all = sql.db_query("ibm.db", "SELECT cosmetic_id FROM cosmetics")
+            cosmetics_all = sql.db_query("SELECT cosmetic_id FROM cosmetics")
             cosmetics_total = len(cosmetics_all)
-            inventory = eval(sql.db_query("ibm.db", "SELECT cosmetics FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0])
+            inventory = eval(sql.db_query("SELECT cosmetics FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0])
             inventory_size = len(inventory)
             if len(inventory) == 0:
                 embed = discord.Embed(title="Inventory", description="You have nothing in your inventory", color=reds)
@@ -26,7 +26,7 @@ class Cosmetics(commands.Cog):
                 inventory_string = ""
                 count = 1
                 for item_id in inventory:
-                    cosmetic = sql.db_query("ibm.db", "SELECT * from cosmetics WHERE cosmetic_id = %s" % (str(item_id)))[0]
+                    cosmetic = sql.db_query("SELECT * from cosmetics WHERE cosmetic_id = %s" % (str(item_id)))[0]
                     inventory_string += str(count) + ") **" + cosmetic[2] + "** " + cosmetic[1] +"\n"
                     count = count + 1
                 embed = discord.Embed(title="Inventory", description=inventory_string, color=colour.secondary)
@@ -35,14 +35,14 @@ class Cosmetics(commands.Cog):
 
         elif operand.upper() == "SHOW" or operand.upper() == "DISPLAY":
             index = int(cosmetic)
-            inventory = eval(sql.db_query("ibm.db", "SELECT cosmetics FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0])
+            inventory = eval(sql.db_query("SELECT cosmetics FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0])
             inventory_size = len(inventory)
             try:
                 item_id = inventory[index-1]
             except IndexError:
                 await ctx.send("**Error:** You do not own a cosmetic under that id")
                 return
-            item = sql.db_query("ibm.db", "SELECT * from cosmetics WHERE cosmetic_id = %s" % (str(item_id)))[0]
+            item = sql.db_query("SELECT * from cosmetics WHERE cosmetic_id = %s" % (str(item_id)))[0]
             if item[2] == "COMMON":
                 embed_color = 0xFFFFFF
             elif item[2] == "UNCOMMON":
@@ -96,9 +96,9 @@ class Cosmetics(commands.Cog):
                 msg = await self.client.wait_for('message', check=check)
                 if msg.content.upper() == "Y":
                     if image_url is None:
-                        sql.execute_query("ibm.db", "INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description) VALUES ('%s', '%s', '%s')" % (title, rarity, description))
+                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description) VALUES ('%s', '%s', '%s')" % (title.replace("'", "''"), rarity, description.replace("'", "''")))
                     else:
-                        sql.execute_query("ibm.db", "INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description, cosmetic_image_url) VALUES ('%s', '%s', '%s', '%s')" % (title, rarity, description, image_url))
+                        sql.execute_query("INSERT INTO cosmetics (cosmetic_name, cosmetic_rarity, cosmetic_description, cosmetic_image_url) VALUES ('%s', '%s', '%s', '%s')" % (title.replace("'", "''"), rarity, description.replace("'", "''"), image_url.replace("'", "''")))
                     await ctx.send("Cosmetic Created")
                 else:
                     await ctx.send("_Cancelled_")

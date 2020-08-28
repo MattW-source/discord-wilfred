@@ -80,7 +80,7 @@ Open the crate to see what's inside
 
                 elif args[2] == "5":
                     if bal >= 1.00*float(quantity):
-                        crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+                        crates_no = sql.db_query("SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                         if crates_no + quantity > 15:
                            await discord_error("You cannot have more than 15 crates in your inventory", ctx)
                         else:
@@ -89,7 +89,7 @@ Open the crate to see what's inside
                             em.set_author(name="Purchase Successful")
                             await ctx.send(embed=em)
                             crates_no = crates_no + 1*quantity
-                            sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
+                            sql.execute_query("UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
                     else:
                         await discord_error("Insufficent funds", ctx)
                 else:
