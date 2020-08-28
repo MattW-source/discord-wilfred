@@ -17,12 +17,12 @@ class Daily(commands.Cog):
     async def daily(self, ctx):
         log.debug("%s issued server command %s" % (str(ctx.message.author), str(ctx.message.content)))
         current_time = time.time()
-        query = sql.db_query("ibm.db", "SELECT dailyRewardClaimed, dailyRewardStreak FROM Members WHERE UserID = %s " % (str(ctx.author.id)))
+        query = sql.db_query("SELECT dailyRewardClaimed, dailyRewardStreak FROM Members WHERE UserID = %s " % (str(ctx.author.id)))
         last_advent = query[0][0]
         streak = query[0][1]
         if last_advent < current_time:
             next_advent =  current_time + ((60 * 60) * 20)
-            sql.execute_query("ibm.db", "UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
+            sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
             reward = random.randint(1, 4)
             if reward == 1:
                 reward_name = "5000 Exp"
@@ -32,18 +32,18 @@ class Daily(commands.Cog):
                 add_coins(ctx.author, float(5.00))
             if reward == 3:
                 reward_name = "2 Crates"
-                crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+                crates_no = sql.db_query("SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                 crates_no = crates_no + 2
-                sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
+                sql.execute_query("UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
             if reward == 4:
                 reward_name = "3 Crates"
-                crates_no = sql.db_query("ibm.db", "SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
+                crates_no = sql.db_query("SELECT crates FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                 crates_no = crates_no + 3
-                sql.execute_query("ibm.db", "UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
+                sql.execute_query("UPDATE Members SET crates = %s WHERE UserID = %s" % (str(crates_no), str(ctx.author.id)))
             embed = discord.Embed(title="Easter Reward", description="You Won " + reward_name, color=colour.primary)
             await ctx.send(embed=embed)
             new_streak = streak + 1
-            sql.execute_query("ibm.db", "UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
+            sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
         else:
             next_advent = last_advent
             time_difference = next_advent - current_time

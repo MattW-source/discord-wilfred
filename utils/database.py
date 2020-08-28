@@ -1,17 +1,24 @@
-import sqlite3
+import utils.values as value # Contains DB Values
+import mysql.connector
 
-def execute_query(table, query):
-    conn = sqlite3.connect("/home/rsa-key-20190102/"+table)
-    #conn = sqlite3.connect(table) #local debugging
+def execute_query(query):
+    conn = mysql.connector.connect(
+           host = value.db_host,
+           user = value.db_user,
+           password = value.db_password,
+           database = value.db_database)
     c = conn.cursor()
     c.execute(query)
     conn.commit()
     c.close()
     conn.close()
 
-def db_query(table, query):
-    conn = sqlite3.connect("/home/rsa-key-20190102/"+table)
-    #conn = sqlite3.connect(table) #local debugging
+def db_query(query):
+    conn = mysql.connector.connect(
+           host = value.db_host,
+           user = value.db_user,
+           password = value.db_password,
+           database = value.db_database)
     c = conn.cursor()
     c.execute(query)
     result = c.fetchall()
