@@ -33,8 +33,8 @@ class Daily(commands.Cog):
             cookie_chance = random.randint(1,25)
             embed=discord.Embed(description="Select your reward by typing the number in chat", color=colour.primary)
             embed.set_author(name="Daily Rewards")
-            embed.add_field(name="Reward 1", value=str(round(1000 + (streak * 10)*multiplier,0) + " Exp", inline=False)
-            embed.add_field(name="Reward 2", value="$" + str(round(0.10 + (streak * 0.01)*multiplier,2), inline=False)
+            embed.add_field(name="Reward 1", value=str(round(1000 + (streak * 10)*multiplier,0)) + " Exp", inline=False)
+            embed.add_field(name="Reward 2", value="$" + str(round(0.10 + (streak * 0.01)*multiplier,2)), inline=False)
             if cookie_chance == 1:
                 embed.add_field(name="Reward 3", value="3 Cookies", inline=False)
 
