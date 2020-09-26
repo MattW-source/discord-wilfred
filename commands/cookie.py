@@ -11,10 +11,10 @@ class Cookie(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(aliases=["pumpkin"])
     async def cookie(self, ctx, target : discord.Member):
         '''
-        Give someone a cookie
+        Give someone a cookie (pumpkin)
 
         Required Permission: None
         Required Arguments: Mention
@@ -24,10 +24,10 @@ class Cookie(commands.Cog):
         args = ctx.message.content.split(' ')
         if bal >= 0.01:
             add_balance(ctx.author, -0.01)
-            cookie_type = random.choice(["just gave you a chocolate chip cookie!", "just gave you a otis spunkmeyer cookie!", "just gave you a super sized cookie!", "just gave you a sainsburys taste the difference cookie!"])
+            cookie_type = random.choice(["just gave you a big pumpkin!", "just gave you a strange pumpkin!", "just gave you a pumpkin!", "just gave you a sainsburys taste the difference pumpkin!"])
             embed = discord.Embed(description="Hey %s, %s %s" % (args[1], ctx.message.author.mention, cookie_type), color=colour.secondary)
-            embed.set_author(name="Cookie")
-            embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Oxygen480-apps-preferences-web-browser-cookies.svg/1024px-Oxygen480-apps-preferences-web-browser-cookies.svg.png")
+            embed.set_author(name="Pumpkin")
+            embed.set_thumbnail(url="https://i.foggyio.uk/Pumpkin.png")
             await ctx.message.channel.send(embed=embed)
             if not target.id == ctx.author.id:
                 cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(target.id)))[0][0]
