@@ -5,23 +5,27 @@ import time
 import utils.logging as log
 import utils.values as value
 
-client = commands.Bot(command_prefix = '!')
-client.remove_command("help")
+version         = value.version
+commandPrefix   = "!"
+allowedMentions = discord.AllowedMentions(everyone=False, users=True, roles=False)
+baseStatus      = discord.Status.dnd
+baseActivity    = discord.Activity(type=discord.ActivityType.playing, name=version)
+intents         = discord.Intents(guild_messages=True, members=True, guild_reactions=True)
 
-client.up = time.time()
-
-client.conCooldown = []
-client.cooldown = []
-client.cooldown2 = []
+client                   = commands.Bot(command_prefix=commandPrefix, max_messages=1000, case_insensitive=True, allowed_mentions=allowedMentions, status=baseStatus, activity=baseActivity, intents=intents)
+client.up                = time.time()
+client.conCooldown       = []
+client.cooldown          = []
+client.cooldown2         = []
 client.disabled_commands = []
-client.ignore_list = []
-client.raffles = False
-client.enteries = []
-
-client.polls = False
-client.polls_options = []
-client.polls_votes = []
-client.polls_enteries = []
+client.ignore_list       = []
+client.raffles           = False
+client.enteries          = []
+client.polls             = False
+client.polls_options     = []
+client.polls_votes       = []
+client.polls_enteries    = []
+client.remove_command("help")
 
 '''Module Manager'''
 @client.command()
