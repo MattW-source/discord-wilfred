@@ -77,7 +77,7 @@ class Profile(commands.Cog):
         em.add_field(name="Member Since", value=str(user.joined_at)[0:19])
 
         em.add_field(name="Balance", value="$"+str(balance_formatter(round(float(profile[0]),2 ))))
-        em.add_field(name="Cookies Received", value=str(cookies_no))
+        em.add_field(name="Pumpkins Received", value=str(cookies_no))
         em.add_field(name="Cosmetics Unlocked", value="%s/%s" % (str(inventory_size), str(cosmetics_total)))
         if not profile[5] is None:
             em.set_footer(text=""+profile[5])
