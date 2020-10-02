@@ -15,21 +15,22 @@ class Spooktober(commands.Cog):
 
     @commands.command()
     async def spawnpumpkin(self, ctx, channelID, *, string_to_type = None):
-        channel = discord.utils.get(ctx.guild.channels, mention=channelID)
-        string_to_type_scrambled = ''.join(random.shuffle(list(string_to_type)))
-        embed = discord.Embed(title="Wild Pumpkin", description = "First Person To Unscramble `" + string_to_type_scrambled + "` wins $0.25!", colour=colour.secondary)
-        await channel.send(embed=embed)
-        def check(m):
-            return m.channel == channel and m.content == string_to_type
-        try:
-            msg = await self.client.wait_for('message', check=check, timeout=30.0)
-        except asyncio.TimeoutError:
-            embed = discord.Embed(title="Wild Pumpkin", description="Nobody got the word in time. The word was `" + string_to_type + "`.", color=colour.reds)
+        if "Manager" in [role.name for role in ctx.author.roles]:
+            channel = discord.utils.get(ctx.guild.channels, mention=channelID)
+            string_to_type_scrambled = ''.join(random.shuffle(list(string_to_type)))
+            embed = discord.Embed(title="Wild Pumpkin", description = "First Person To Unscramble `" + string_to_type_scrambled + "` wins $0.25!", colour=colour.secondary)
             await channel.send(embed=embed)
-        else:
-            add_balance(msg.author, 0.25)
-            embed = discord.Embed(title="Wild Pumpkin", description = "Congratulations " + msg.author.mention + "! you've won $0.25!", colour=colour.secondary)
-            await channel.send(embed=embed)
+            def check(m):
+                return m.channel == channel and m.content == string_to_type
+            try:
+                msg = await self.client.wait_for('message', check=check, timeout=30.0)
+            except asyncio.TimeoutError:
+                embed = discord.Embed(title="Wild Pumpkin", description="Nobody got the word in time. The word was `" + string_to_type + "`.", color=colour.reds)
+                await channel.send(embed=embed)
+            else:
+                add_balance(msg.author, 0.25)
+                embed = discord.Embed(title="Wild Pumpkin", description = "Congratulations " + msg.author.mention + "! you've won $0.25!", colour=colour.secondary)
+                await channel.send(embed=embed)
 
     @commands.command()
     async def checkteams(self, ctx):
@@ -59,11 +60,6 @@ class Spooktober(commands.Cog):
         if ctx.author.id == 345514405775147023:
             sql.execute_query("UPDATE teams SET teamPoints = 0")
             await ctx.send("Team Points Reset")
-
-
-
-
-
 
 def setup(client):
     client.add_cog(Spooktober(client))
