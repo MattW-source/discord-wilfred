@@ -73,7 +73,35 @@ class Spooktober(commands.Cog):
         blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
         for member in ctx.guild.members:
             if "Blue Team" in [role.name for role in member.roles]:
-                await member.remove_roles(blue_team_role)            
+                await member.remove_roles(blue_team_role)  
+                
+    @commands.command()
+    async def splitred(self, ctx):
+        red_team_role = discord.utils.get(guild.roles, name="Red Team")
+        blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+        redmembers = []
+        for member in ctx.guild.members:
+            if "Red Team" in [role.name for role in member.roles]:
+                redmembers.append(member)
+        team_members = len(redmembers)
+        target_size = round(team_members/2,0)
+        for i in range(0, target_size):
+            await redmembers[i].remove_roles(red_team_role)
+            await redmembers[i].add_roles(blue_team_role)
+
+    @commands.command()
+    async def splitblue(self, ctx):
+        red_team_role = discord.utils.get(guild.roles, name="Red Team")
+        blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+        bluemembers = []
+        for member in ctx.guild.members:
+            if "Blue Team" in [role.name for role in member.roles]:
+                bluemembers.append(member)
+        team_members = len(bluemembers)
+        target_size = round(team_members/2,0)
+        for i in range(0, target_size):
+            await redmembers[i].add_roles(red_team_role)
+            await redmembers[i].remove_roles(blue_team_role)                
 
 def setup(client):
     client.add_cog(Spooktober(client))
