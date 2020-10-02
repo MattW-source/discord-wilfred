@@ -5,25 +5,31 @@ import time
 import utils.logging as log
 import utils.values as value
 
-client = commands.Bot(command_prefix = '!')
+#Pre-Client Definition Values
+version         = value.version
+commandPrefix   = "!"
+allowedMentions = discord.AllowedMentions(everyone=False, users=True, roles=False) # Bot has no reason to mention anyone other than a user
+baseStatus      = discord.Status.dnd
+baseActivity    = discord.Activity(type=discord.ActivityType.playing, name=version)
+intents         = discord.Intents(guild_messages=True, members=True, guild_reactions=True) # guild_reactions are on as it is used on leaderboards and the upcoming iq board.
+
+# Client Object and Values
+client                   = commands.Bot(command_prefix=commandPrefix, max_messages=1000, case_insensitive=True, allowed_mentions=allowedMentions, status=baseStatus, activity=baseActivity, intents=intents)
+client.up                = time.time()
+client.conCooldown       = []
+client.cooldown          = []
+client.cooldown2         = []
+client.disabled_commands = []
+client.ignore_list       = []
+client.raffles           = False
+client.enteries          = []
+client.polls             = False
+client.polls_options     = []
+client.polls_votes       = []
+client.polls_enteries    = []
 client.remove_command("help")
 
-client.up = time.time()
-
-client.conCooldown = []
-client.cooldown = []
-client.cooldown2 = []
-client.disabled_commands = []
-client.ignore_list = []
-client.raffles = False
-client.enteries = []
-
-client.polls = False
-client.polls_options = []
-client.polls_votes = []
-client.polls_enteries = []
-
-'''Module Manager'''
+# Module Manager
 @client.command()
 async def load(ctx, extension):
     if "Manager" in [role.name for role in ctx.author.roles]:
@@ -55,7 +61,7 @@ async def reload(ctx, extension):
     else:
         await ctx.send("**Insufficient Permissions:** This command requires permission rank `MANAGER`")
 
-'''Initalisation'''
+# Initalisation
 for filename in os.listdir('./commands'):
     if filename.endswith('.py'):
         client.load_extension("commands.%s" % (filename[:-3]))
@@ -66,4 +72,4 @@ for filename in os.listdir('./events'):
         client.load_extension("events.%s" % (filename[:-3]))
         log.info("Loaded events.%s" % (filename[:-3]))
 
-client.run(value.token)
+client.run(value.token) # Start the event loop and connect to discord 
