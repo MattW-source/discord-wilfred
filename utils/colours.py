@@ -4,6 +4,6 @@ secondary = 0x00AA00
 reds = 0xf93b3b
 '''
 
-primary = 0x55FF55
+primary = 0x800080
 secondary = 0xff6600
 reds = 0xf93b3b
