@@ -40,7 +40,7 @@ Expires November 2nd 2020
 
 7) **Ghost Tag** - __$10.00__
 Special Halloween Tag (Purple) 
-Expires November 2nd 2020"""
+Expires November 2nd 2020""")
             shopEm.add_field(name="How to use the shop", value="You can obtain balance through being the most active each week, once you have enough balance to purchase an item on the shop, type !shop buy <item> <quantity>", inline=False)
             await ctx.send(embed=shopEm)
         else:
