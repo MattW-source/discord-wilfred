@@ -11,7 +11,7 @@ commandPrefix   = "!"
 allowedMentions = discord.AllowedMentions(everyone=False, users=True, roles=False) # Bot has no reason to mention anyone other than a user
 baseStatus      = discord.Status.dnd
 baseActivity    = discord.Activity(type=discord.ActivityType.playing, name=version)
-intents         = discord.Intents(guild_messages=True, members=True, guild_reactions=True, guilds=True, emoji=True, presences=False) 
+intents         = discord.Intents(guild_messages=True, members=True, guild_reactions=True, guilds=True, emojis=True, presences=False) 
 
 # Client Object and Values
 client                   = commands.Bot(command_prefix=commandPrefix, max_messages=1000, case_insensitive=True, allowed_mentions=allowedMentions, status=baseStatus, activity=baseActivity, intents=intents)
