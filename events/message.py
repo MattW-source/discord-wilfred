@@ -116,15 +116,7 @@ class On_Message(commands.Cog):
                     currentWeeklyPoints = sql.db_query("SELECT weeklyActivity from Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
                     newWeeklyPoints = currentWeeklyPoints + 1
                     sql.execute_query("UPDATE Members set weeklyActivity = %s WHERE UserID = %s" % (str(newWeeklyPoints), str(message.author.id)))
-                if "Red Team" in [role.name for role in message.author.roles]:
-                    currentTeamPoints = sql.db_query("SELECT teamPoints FROM teams WHERE TeamName='RED'")[0][0]
-                    newTeamPoints = currentTeamPoints + 1
-                    sql.execute_query("UPDATE teams SET teamPoints = %s WHERE TeamName='RED'" % (str(newTeamPoints)
-                elif "Blue Team" in [role.name for role in message.author.roles]:
-                    currentTeamPoints = sql.db_query("SELECT teamPoints FROM teams WHERE TeamName='BLUE'")[0][0]
-                    newTeamPoints = currentTeamPoints + 1
-                    sql.execute_query("UPDATE teams SET teamPoints = %s WHERE TeamName='BLUE'" % (str(newTeamPoints))
-                
+               
                 level = get_profile(message.author.id)[1]
                 self.client.cooldown.append(message.author.id)
                 exp_add = int(round(random.randint(15, 25)*multiplier,0))
