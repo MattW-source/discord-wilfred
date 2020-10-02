@@ -68,6 +68,7 @@ class Spooktober(commands.Cog):
             for member in ctx.guild.members:
                 if "Red Team" in [role.name for role in member.roles]:
                     await member.remove_roles(red_team_role)
+            await ctx.send("Done")
 
     @commands.command()
     async def disbandblue(self, ctx):
@@ -76,6 +77,7 @@ class Spooktober(commands.Cog):
             for member in ctx.guild.members:
                 if "Blue Team" in [role.name for role in member.roles]:
                     await member.remove_roles(blue_team_role)
+            await ctx.send("Done")
 
     @commands.command()
     async def splitred(self, ctx):
@@ -91,6 +93,7 @@ class Spooktober(commands.Cog):
             for i in range(0, target_size):
                 await redmembers[i].remove_roles(red_team_role)
                 await redmembers[i].add_roles(blue_team_role)
+            await ctx.send("Done")
 
     @commands.command()
     async def splitblue(self, ctx):
@@ -105,7 +108,8 @@ class Spooktober(commands.Cog):
             target_size = round(team_members/2,0)
             for i in range(0, target_size):
                 await redmembers[i].add_roles(red_team_role)
-                await redmembers[i].remove_roles(blue_team_role)              
+                await redmembers[i].remove_roles(blue_team_role) 
+            await ctx.send("Done")
 
 def setup(client):
     client.add_cog(Spooktober(client))
