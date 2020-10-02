@@ -78,6 +78,10 @@ class Daily(commands.Cog):
                     cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                     cookies_no = cookies_no + 3
                     sql.execute_query("UPDATE Members SET cookiesReceived = %s WHERE UserID = %s" % (str(cookies_no), str(ctx.author.id)))
+                    next_advent =  current_time + ((60 * 60) * 20)
+                    sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
+                    new_streak = streak + 1
+                    sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
                 else:
                     embed = discord.Embed(description="Invalid Response", color=colour.reds)
                     embed.set_author(name="Daily Reward")
