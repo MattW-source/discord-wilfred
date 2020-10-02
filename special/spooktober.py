@@ -100,8 +100,8 @@ class Spooktober(commands.Cog):
         team_members = len(bluemembers)
         target_size = round(team_members/2,0)
         for i in range(0, target_size):
-            await redmembers[i].add_roles(red_team_role)
-            await redmembers[i].remove_roles(blue_team_role)                
+            await bluemembers[i].add_roles(red_team_role)
+            await bluemembers[i].remove_roles(blue_team_role)                
 
 def setup(client):
     client.add_cog(Spooktober(client))
