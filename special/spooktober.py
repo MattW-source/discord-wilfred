@@ -60,6 +60,20 @@ class Spooktober(commands.Cog):
         if ctx.author.id == 345514405775147023:
             sql.execute_query("UPDATE teams SET teamPoints = 0")
             await ctx.send("Team Points Reset")
+            
+    @commands.command()
+    async def disbandred(self, ctx):
+        red_team_role = discord.utils.get(guild.roles, name="Red Team")
+        for member in ctx.guild.members:
+            if "Red Team" in [role.name for role in member.roles]:
+                await member.remove_roles(red_team_role)
+
+    @commands.command()
+    async def disbandblue(self, ctx):
+        blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+        for member in ctx.guild.members:
+            if "Blue Team" in [role.name for role in member.roles]:
+                await member.remove_roles(blue_team_role)            
 
 def setup(client):
     client.add_cog(Spooktober(client))
