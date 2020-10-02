@@ -109,7 +109,7 @@ class On_Message(commands.Cog):
             words = message.content.split()
             if not str(message.author.id) in self.client.ignore_list and not str(message.channel.id) in self.client.ignore_list and not message.author.id in self.client.cooldown and len(words) > 4 and len(message.content) > 16:
                 multiplier = sql.db_query("SELECT Level FROM Members WHERE UserID = 1")[0][0]
-                if "Supporter" in [role.name for role in message.author.roles]:
+                if "Supporter" in [role.name for role in message.author.roles] or "Headless Horseman" in [role.name for role in message.author.roles]:
                     multiplier = multiplier+0.5
                 bal = sql.db_query("SELECT Balance FROM Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
                 if not "Manager" in [role.name for role in message.author.roles]:
