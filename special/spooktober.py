@@ -37,7 +37,7 @@ class Spooktober(commands.Cog):
         if ctx.author.id == 345514405775147023:
             red_team_score = sql.db_query("SELECT teamPoints FROM teams WHERE teamName = 'RED'")[0][0]
             blue_team_score = sql.db_query("SELECT teamPoints FROM teams WHERE teamName = 'BLUE'")[0][0]
-            embed = discord.embed(description="**Red Team:** %s\n**Blue Team:** %s" % (str(red_team_score), str(blue_team_score)), color=colour.secondary)
+            embed = discord.Embed(description="**Red Team:** %s\n**Blue Team:** %s" % (str(red_team_score), str(blue_team_score)), color=colour.secondary)
             embed.set_author(name="Halloween Event Scores")
             await ctx.send(embed=embed)
 
