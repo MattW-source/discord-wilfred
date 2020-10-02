@@ -6,7 +6,7 @@ import utils.logging as log
 import utils.values as value
 
 #Pre-Client Definition Values
-version         = value.version
+version         = value.buildVersion
 commandPrefix   = "!"
 allowedMentions = discord.AllowedMentions(everyone=False, users=True, roles=False) # Bot has no reason to mention anyone other than a user
 baseStatus      = discord.Status.dnd
