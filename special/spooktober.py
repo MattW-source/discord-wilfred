@@ -44,9 +44,9 @@ class Spooktober(commands.Cog):
     @commands.command(alias=["removeuselesspeople"])
     async def removeinactives(self, ctx):
         if ctx.author.id == 345514405775147023:
-            activity = sql.db_query("SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 AND weeklyAcivity < 10")
-            red_team_role = discord.utils.get(guild.roles, name="Red Team")
-            blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+            activity = sql.db_query("SELECT UserID FROM Members WHERE NOT UserID = 472063067014823938 AND NOT UserID = 1 AND NOT UserID = 568905827952361490 AND weeklyActivity < 10")
+            red_team_role = discord.utils.get(ctx.guild.roles, name="Red Team")
+            blue_team_role = discord.utils.get(ctx.guild.roles, name="Blue Team")
             for entry in activity:
                 member = discord.utils.get(ctx.guild.members, id=entry[0])
                 if "Red Team" in [role.name for role in member.roles]:
@@ -64,7 +64,7 @@ class Spooktober(commands.Cog):
     @commands.command()
     async def disbandred(self, ctx):
         if ctx.author.id == 345514405775147023:
-            red_team_role = discord.utils.get(guild.roles, name="Red Team")
+            red_team_role = discord.utils.get(ctx.guild.roles, name="Red Team")
             for member in ctx.guild.members:
                 if "Red Team" in [role.name for role in member.roles]:
                     await member.remove_roles(red_team_role)
@@ -73,7 +73,7 @@ class Spooktober(commands.Cog):
     @commands.command()
     async def disbandblue(self, ctx):
         if ctx.author.id == 345514405775147023:
-            blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+            blue_team_role = discord.utils.get(ctx.guild.roles, name="Blue Team")
             for member in ctx.guild.members:
                 if "Blue Team" in [role.name for role in member.roles]:
                     await member.remove_roles(blue_team_role)
@@ -82,8 +82,8 @@ class Spooktober(commands.Cog):
     @commands.command()
     async def splitred(self, ctx):
         if ctx.author.id == 345514405775147023:
-            red_team_role = discord.utils.get(guild.roles, name="Red Team")
-            blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+            red_team_role = discord.utils.get(ctx.guild.roles, name="Red Team")
+            blue_team_role = discord.utils.get(ctx.guild.roles, name="Blue Team")
             redmembers = []
             for member in ctx.guild.members:
                 if "Red Team" in [role.name for role in member.roles]:
@@ -98,8 +98,8 @@ class Spooktober(commands.Cog):
     @commands.command()
     async def splitblue(self, ctx):
         if ctx.author.id == 345514405775147023:
-            red_team_role = discord.utils.get(guild.roles, name="Red Team")
-            blue_team_role = discord.utils.get(guild.roles, name="Blue Team")
+            red_team_role = discord.utils.get(ctx.guild.roles, name="Red Team")
+            blue_team_role = discord.utils.get(ctx.guild.roles, name="Blue Team")
             bluemembers = []
             for member in ctx.guild.members:
                 if "Blue Team" in [role.name for role in member.roles]:
@@ -107,8 +107,8 @@ class Spooktober(commands.Cog):
             team_members = len(bluemembers)
             target_size = round(team_members/2,0)
             for i in range(0, target_size):
-                await redmembers[i].add_roles(red_team_role)
-                await redmembers[i].remove_roles(blue_team_role) 
+                await bluemembers[i].add_roles(red_team_role)
+                await bluemembers[i].remove_roles(blue_team_role) 
             await ctx.send("Done")
 
 def setup(client):
