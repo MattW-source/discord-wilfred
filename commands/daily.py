@@ -30,6 +30,13 @@ class Daily(commands.Cog):
             multiplier = 1
 
         if last_advent < current_time:
+            
+            def update_advent(user_id: str):
+                next_advent =  current_time + ((60 * 60) * 20)
+                sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(user_id)))
+                new_streak = streak + 1
+                sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(user_id)))
+
             cookie_chance = random.randint(1,25)
             embed=discord.Embed(description="Select your reward by typing the number in chat", color=colour.primary)
             embed.set_author(name="Daily Rewards")
@@ -58,19 +65,13 @@ class Daily(commands.Cog):
                     embed = discord.Embed(description="You unlocked **" + str((1000 + (streak * 10))*multiplier) + " EXP**!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
                     await mssg.edit(embed=embed)
-                    next_advent =  current_time + ((60 * 60) * 20)
-                    sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
-                    new_streak = streak + 1
-                    sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
+                    update_advent(ctx.author.id)
                 elif msg.content == "2":
                     add_balance(ctx.author, round(0.10 + (streak * 0.01),2)*multiplier)
                     embed = discord.Embed(description="You unlocked **$" + str(round(0.10 + (streak * 0.01),2)*multiplier) + " **!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
                     await mssg.edit(embed=embed)
-                    next_advent =  current_time + ((60 * 60) * 20)
-                    sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
-                    new_streak = streak + 1
-                    sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
+                    update_advent(ctx.author.id)
                 elif msg.content == "3" and cookie_chance == 1:
                     embed = discord.Embed(description="You unlocked **3 Cookies**!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
@@ -78,6 +79,7 @@ class Daily(commands.Cog):
                     cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                     cookies_no = cookies_no + 3
                     sql.execute_query("UPDATE Members SET cookiesReceived = %s WHERE UserID = %s" % (str(cookies_no), str(ctx.author.id)))
+                    update_advent(ctx.author.id)
                 else:
                     embed = discord.Embed(description="Invalid Response", color=colour.reds)
                     embed.set_author(name="Daily Reward")
