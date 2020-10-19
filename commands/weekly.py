@@ -37,7 +37,7 @@ class Profile(commands.Cog):
                 await ctx.send(embed=embed)
             elif args[1].upper() == "RESET":
                 if "Manager" in [role.name for role in ctx.author.roles]:
-                    sql.execute_query("ibm.db", "UPDATE Members SET weeklyActivity=0")
+                    sql.execute_query("UPDATE Members SET weeklyActivity=0")
                     await ctx.send("Reset Weekly Activity Stats")
                     return
         else:
