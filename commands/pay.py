@@ -15,6 +15,8 @@ class Pay(commands.Cog):
     async def pay(self, ctx, targetMember : discord.Member = None, amount = None):
         if targetMember == None or amount == None:
             await ctx.send("Incorrect Usage, !pay <user> <amount>")
+        elif targetMember == ctx.author:
+            await ctx.send("Incorrect Usage, You may not pay yourself")
         else:
             amount = round(float(amount), 2) # Don't want people sending 0.33333... to people
             userBal = fetch_balance(ctx.author)
