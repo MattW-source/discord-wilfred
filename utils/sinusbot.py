@@ -12,7 +12,7 @@ def time_phaser(seconds):
     return output
 
 def login():
-    r = requests.post("https://music.foggyio.uk/api/v1/bot/login", data={"username":"", "password":"", "botId":""})
+    r = requests.post("https://music.foggyio.uk/api/v1/bot/login", data={"username":"automation", "password":"", "botId":"d3170c67-312a-4093-98bb-e213696d58a4"})
     token = json.loads(r.text)["token"]
     return token
 
@@ -20,7 +20,7 @@ def playing():
     try:
         authToken = login()
         headers = {"authorization":"Bearer " + authToken}
-        r = requests.get("https://music.foggyio.uk/api/v1/bot/i/2c141bcb-73f0-4332-b93b-545000768cb5/status", headers=headers)
+        r = requests.get("https://music.foggyio.uk/api/v1/bot/i/a2a47bec-f1a3-4e91-85e2-eea4fa982b05/status", headers=headers)
         version = json.loads(r.text)["v"]
         try:
             song = json.loads(r.text)["currentTrack"]["tempArtist"] + " - " + json.loads(r.text)["currentTrack"]["tempTitle"]
