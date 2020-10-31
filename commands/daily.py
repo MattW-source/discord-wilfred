@@ -16,9 +16,9 @@ class Daily(commands.Cog):
     @commands.command()
     async def daily(self, ctx):
         
-        def _update_advent():
-            next_advent =  current_time + ((60 * 60) * 20)
-            sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_advent), str(ctx.author.id)))
+        def update_lastClaimed_and_streaks():
+            next_lastClaimed =  current_time + ((60 * 60) * 20)
+            sql.execute_query("UPDATE Members SET dailyRewardClaimed = %s WHERE UserID = %s " % (str(next_lastClaimed), str(ctx.author.id)))
             new_streak = streak + 1
             sql.execute_query("UPDATE Members SET dailyRewardStreak = %s WHERE UserID = %s " % (str(new_streak), str(ctx.author.id)))
          
@@ -65,13 +65,13 @@ class Daily(commands.Cog):
                     embed = discord.Embed(description="You unlocked **" + str(round(1000 + (streak * 5)*multiplier,0)) + " EXP**!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
                     await mssg.edit(embed=embed)
-                    _update_advent()
+                    update_lastClaimed_and_streaks()
                 elif msg.content == "2":
                     add_balance(ctx.author, round(0.10 + (streak * 0.01),2)*multiplier)
                     embed = discord.Embed(description="You unlocked **$" + str(round(0.50 + (streak * 0.01),2)*multiplier) + " **!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
                     await mssg.edit(embed=embed)
-                    _update_advent()
+                    update_lastClaimed_and_streaks()
                 elif msg.content == "3" and cookie_chance == 1:
                     embed = discord.Embed(description="You unlocked **3 Cookies**!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
@@ -79,7 +79,7 @@ class Daily(commands.Cog):
                     cookies_no = sql.db_query("SELECT cookiesReceived FROM Members WHERE UserID = %s" % (str(ctx.author.id)))[0][0]
                     cookies_no = cookies_no + 3
                     sql.execute_query("UPDATE Members SET cookiesReceived = %s WHERE UserID = %s" % (str(cookies_no), str(ctx.author.id)))
-                    _update_advent()
+                    update_lastClaimed_and_streaks()
                 else:
                     embed = discord.Embed(description="Invalid Response", color=colour.reds)
                     embed.set_author(name="Daily Reward")
