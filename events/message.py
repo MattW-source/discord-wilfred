@@ -116,6 +116,7 @@ class On_Message(commands.Cog):
                     currentWeeklyPoints = sql.db_query("SELECT weeklyActivity from Members WHERE UserID = %s" % (str(message.author.id)))[0][0]
                     newWeeklyPoints = currentWeeklyPoints + 1
                     sql.execute_query("UPDATE Members set weeklyActivity = %s WHERE UserID = %s" % (str(newWeeklyPoints), str(message.author.id)))
+               
                 level = get_profile(message.author.id)[1]
                 self.client.cooldown.append(message.author.id)
                 exp_add = int(round(random.randint(15, 25)*multiplier,0))
