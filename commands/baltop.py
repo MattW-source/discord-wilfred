@@ -8,14 +8,10 @@ import utils.database as sql
 import math
 from utils.helpers import *
 
-class Baltop(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
-
-    @commands.command(aliases=["balancetop", "bt", "btop"])
-    async def baltop(self, ctx):
-        await leaderboard_main(ctx, self=self)
+@commands.command(aliases=["balancetop", "bt", "btop"])
+async def baltop(ctx):
+    await leaderboard_main(ctx)
 
 def generate_leaderboard_string(guild, page=1):
     leaderboard_2d_array = sql.db_query("SELECT UserID, Balance FROM Members WHERE NOT UserID = 1 ORDER BY Balance DESC")
@@ -37,7 +33,7 @@ def generate_leaderboard_string(guild, page=1):
             break
     return leaderboard_string
 
-async def leaderboard_main(ctx, page=1, leaderboard_message_object=None, self=None):
+async def leaderboard_main(ctx, page=1, leaderboard_message_object=None):
     max_pages = math.ceil((len(ctx.guild.members)-2)/10)
     leaderboard_string = generate_leaderboard_string(ctx.guild, page)
     embed = discord.Embed(description=leaderboard_string, color=colour.primary)
@@ -54,22 +50,22 @@ async def leaderboard_main(ctx, page=1, leaderboard_message_object=None, self=No
         return user == ctx.author and (str(reaction.emoji) == "◀" or str(reaction.emoji) == "▶")
 
     try:
-        reaction, user = await self.client.wait_for('reaction_add', timeout=30.0, check=check)
+        reaction, user = await ctx.bot.wait_for('reaction_add', timeout=30.0, check=check)
     except asyncio.TimeoutError:
         await leaderboard_message_object.clear_reactions()
     else:
         await reaction.remove(user)
         if str(reaction.emoji) == "◀":
             if not page == 1:
-                await leaderboard_main(ctx, page-1, leaderboard_message_object, self=self)
+                await leaderboard_main(ctx, page-1, leaderboard_message_object)
             else:
-                await leaderboard_main(ctx, page, leaderboard_message_object, self=self)
+                await leaderboard_main(ctx, page, leaderboard_message_object)
 
         elif str(reaction.emoji) == "▶":
             if not page+1 > max_pages:
-                await leaderboard_main(ctx, page+1, leaderboard_message_object, self=self)
+                await leaderboard_main(ctx, page+1, leaderboard_message_object)
             else:
-                await leaderboard_main(ctx, page, leaderboard_message_object, self=self)
+                await leaderboard_main(ctx, page, leaderboard_message_object)
 
 def setup(client):
-    client.add_cog(Baltop(client))
+    client.add_command(baltop)
