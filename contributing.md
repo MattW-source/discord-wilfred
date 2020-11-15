@@ -20,7 +20,7 @@ Make sure to follow the standards set out above when making your PR, we may make
 Any pull requests must pass the automated tests, if they do not, they cannot be merged. If your PR fails the automated tests please figure out why and fix the issue, any PR that has been failing for a prolonged period of time with no action from the contributor will be closed.  
 
 # Discord Rewards
-Sometimes we hold events in which you can earn rewards, keep posting in our #server-announcements channel and subscribe to the Wilfred Development Feed
+Frequent contnributors will be given a contributor badge on your discord profile.
 
 # Testing
 Testing of the in-dev branch is ran on a twin server, contributors with the Contributor Rank will be invited to this server to help with testing. The contributor role on the test server will give admin like permissions with the bot, however, everything is runnong off a seperate database and won't affect the live server.
