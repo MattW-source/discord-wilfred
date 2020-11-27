@@ -6,6 +6,7 @@ token        = ""
 db_host     = ""
 db_user     = ""
 db_password = ""
+db_database = ""
 
 # Channel IDs
 general     = 547122996717027328
