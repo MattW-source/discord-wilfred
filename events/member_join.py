@@ -6,7 +6,7 @@ import utils.values as value
 import utils.database as sql
 from utils.helpers import *
 
-class On_Ready(commands.Cog):
+class On_Member_Join(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -22,4 +22,4 @@ class On_Ready(commands.Cog):
             await channel.send(embed=em)
 
 def setup(client):
-    client.add_cog(On_Ready(client))
+    client.add_cog(On_Member_Join(client))
