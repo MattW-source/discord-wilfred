@@ -6,7 +6,7 @@ import utils.values as value
 import utils.database as sql
 from utils.helpers import *
 
-class Profile(commands.Cog):
+class Weekly(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -75,4 +75,4 @@ class Profile(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(Profile(client))
+    client.add_cog(Weekly(client))
