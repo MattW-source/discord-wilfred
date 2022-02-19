@@ -30,7 +30,7 @@ class Playing(commands.Cog):
             embed.set_thumbnail(url="https://i.foggyio.uk/one_world_radio.png")
         else:
             embed = discord.Embed(description=song[0], color=colour.reds)
-            embed.set_author(name="Currently Playing", icon_url="https://i.foggyio.uk/playing.png")
+            embed.set_author(name="Currently Playing", icon_url="https://avatars.githubusercontent.com/u/25282695?s=280&v=4")
             embed.set_thumbnail(url="https://i.foggyio.uk/SinusBot.png")
         if not duration == "Unknown":
             embed.set_footer(text="Duration: " + duration + " | SinusBot " + version)
