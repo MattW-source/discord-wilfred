@@ -76,7 +76,7 @@ def get_profile(userID):
     if len(profile) == 0:
         sql.execute_query("INSERT INTO Members (UserID) VALUES ('%s')" % (userID))
         profile = sql.db_query("SELECT Balance, Level, expTotal, Badges, profileColour, profileHashtag, exp FROM Members WHERE UserID = %s" % (userID))
-    return profile
+    return profile[0]
 
 def level_up(userID, level):
     sql.execute_query("UPDATE Members SET Level = %s WHERE UserID = %s" % (str(level), str(userID)))
