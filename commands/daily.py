@@ -67,7 +67,7 @@ class Daily(commands.Cog):
                     await mssg.edit(embed=embed)
                     update_cooldown_and_streaks()
                 elif msg.content == "2":
-                    add_balance(ctx.author, round(0.10 + (streak * 0.01),2)*multiplier)
+                    add_balance(ctx.author, round(0.50 + (streak * 0.01),2)*multiplier)
                     embed = discord.Embed(description="You unlocked **$" + str(round(0.50 + (streak * 0.01),2)*multiplier) + " **!", color=colour.primary)
                     embed.set_author(name="Daily Reward")
                     await mssg.edit(embed=embed)

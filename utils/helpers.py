@@ -72,8 +72,11 @@ def add_balance_id(user_id, amount):
     set_balance_id(user_id, new_balance)
 
 def get_profile(userID):
-    profile = sql.db_query("SELECT Balance, Level, expTotal, Badges, profileColour, profileHashtag, exp FROM Members WHERE UserID = %s" % (userID))[0]
-    return profile
+    profile = sql.db_query("SELECT Balance, Level, expTotal, Badges, profileColour, profileHashtag, exp FROM Members WHERE UserID = %s" % (userID))
+    if len(profile) == 0:
+        sql.execute_query("INSERT INTO Members (UserID) VALUES ('%s')" % (userID))
+        profile = sql.db_query("SELECT Balance, Level, expTotal, Badges, profileColour, profileHashtag, exp FROM Members WHERE UserID = %s" % (userID))
+    return profile[0]
 
 def level_up(userID, level):
     sql.execute_query("UPDATE Members SET Level = %s WHERE UserID = %s" % (str(level), str(userID)))

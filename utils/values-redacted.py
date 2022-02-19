@@ -1,5 +1,5 @@
 # General Properties
-buildVersion = "Version 3.6.2"
+buildVersion = "Version 3.6.3"
 token        = ""
 
 # SQL

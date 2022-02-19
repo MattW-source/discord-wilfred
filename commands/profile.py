@@ -70,7 +70,7 @@ class Profile(commands.Cog):
         inventory_size = len(inventory)
 
         em.add_field(name=badges, value="_ _ _ _ ")
-        em.set_thumbnail(url=user.avatar_url)
+        em.set_thumbnail(url=user.avatar.url)
         em.add_field(name="_ _ _ _", value="_ _ _ _", inline=False)
         em.add_field(name="Level", value=str(profile[1])+ " [**#" + str(lpos) + "**]")
         em.add_field(name="Experience", value=str(profile[2])+ "/" + str(nextRequiredAmount))
